@@ -2,16 +2,24 @@ import concurrent.futures
 import glob
 from pathlib import Path
 from openai import OpenAI
+import time
+
+client = OpenAI(api_key="ваш api с https://platform.openai.com/assistants/asst_S8W94anMLpfILBeAkCMmtfpJ")
 
 def call_gpt(prompt):
-    response = OpenAI().chat.completions.create(
-        model="gpt-4",
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",  # Используйте gpt-3.5-turbo, если gpt-4o-mini недоступен
         messages=[{"role": "user", "content": prompt}]
     )
     return response.choices[0].message.content
 
-# Чтение описания вакансии
-job = Path("files/Job description.txt").read_text()
+# Проверка и чтение описания вакансии
+job_path = Path("files/Job description.txt")
+if not job_path.exists():
+    raise FileNotFoundError(f"Файл {job_path} не найден.")
+job = job_path.read_text(encoding="utf-8")
+
+# Поиск файлов с резюме кандидатов
 cv_files = glob.glob("files/candidates/*.txt")
 
 # Определение запроса для оценки кандидатов
@@ -24,11 +32,12 @@ evaluation_prompt = """
 """
 
 def evaluate_candidate(cv_file):
-    cv = Path(cv_file).read_text()
+    cv = Path(cv_file).read_text(encoding="utf-8")
+    time.sleep(1)  # Задержка в 1 секунду между запросами
     return call_gpt(evaluation_prompt.format(job=job, cv=cv))
 
-# Оценка всех кандидатов 
-with concurrent.futures.ThreadPoolExecutor() as executor:
+# Оценка всех кандидатов
+with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:  # Ограничьте количество потоков
     candidate_evaluations = list(executor.map(evaluate_candidate, cv_files))
 
 # Определение запроса для финальной рекомендации
@@ -49,7 +58,7 @@ final_recommendation = call_gpt(final_recommendation_prompt.format(
 ))
 
 # Сохранение в файл
-Path("files/Recommendation.txt").write_text(final_recommendation)
+Path("files/Recommendation.txt").write_text(final_recommendation, encoding="utf-8")
 
 # Вывод финальной рекомендации
 print(final_recommendation)
