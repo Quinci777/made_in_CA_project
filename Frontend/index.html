@@ -5,7 +5,30 @@
     <title>Мой калифорнийский сайт</title>
 </head>
 <body>
+    <!-- Вывод flash-сообщений -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul style="color: red;">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
     <h1>Добро пожаловать в Калифорнию!</h1>
     <p>Это демонстрационная страница.</p>
+    <form action="/registration" method="post">
+        <p>Регистрация:</p>
+        <input type="text" name="login" placeholder="Логин">
+        <input type="password" name="password" placeholder="Пароль"> @TODO: хеширование пароля
+        <input type="submit" value="Зарегистрироваться">
+    </form>
+    <form action="/login" method="post">
+        <p>Вход:</p>
+        <input type="text" name="login" placeholder="Логин">
+        <input type="password" name="password" placeholder="Пароль">  @TODO: хеширование пароля
+        <input type="submit" value="Войти">
+    </form>
 </body>
 </html>
