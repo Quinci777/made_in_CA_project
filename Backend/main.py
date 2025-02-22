@@ -18,6 +18,7 @@ secret_key = os.getenv('SECRET_KEY')
 if not secret_key:
     print("WARNING: SECRET_KEY не установлен! Пожалуйста, добавьте его в .env файл.")
 app.config['SECRET_KEY'] = secret_key
+app.config['BASE_URL'] = os.getenv('BASE_URL')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # Path to SQLite database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable SQLAlchemy modification tracking
 # Email configuration
@@ -36,13 +37,12 @@ db = SQLAlchemy(app)
 # User model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     email_confirmed = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
-        return f'<User {self.login}>'
+        return f'<User {self.email}>'
 
 # Create the database tables if they don't exist
 with app.app_context():
@@ -56,20 +56,19 @@ def index():
 @app.route('/registration', methods=['POST'])
 def registration():
     # receive user input
-    user_login = request.form.get('login')
     user_password = request.form.get('password')
     user_email = request.form.get('email')
 
-    if not user_login or not user_password or not user_email:
+    if not user_password or not user_email:
         flash("Пожалуйста, заполните все поля для регистрации.")
         return redirect(url_for('index'))
 
-    # check if user already exists
-    existing_user = User.query.filter_by(login=user_login).first()
-    if existing_user:
-        flash("Пользователь с таким логином уже существует.")
+    # check if password is strong enough
+    if len(user_password) < 8:
+        flash("Пароль должен содержать не менее 8 символов.")
         return redirect(url_for('index'))
-    
+
+    # check if user already exists
     existing_email = User.query.filter_by(email=user_email).first()
     if existing_email:
         flash("Пользователь с такой электронной почтой уже существует.")
@@ -84,18 +83,17 @@ def registration():
     hashed_password = generate_password_hash(user_password)
 
     # create a new user
-    new_user = User(login=user_login, password_hash=hashed_password, email=user_email, email_confirmed=False)
+    new_user = User(password_hash=hashed_password, email=user_email, email_confirmed=False)
     db.session.add(new_user)
     db.session.commit()
 
     # send confirmation email
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     token = serializer.dumps(new_user.email, salt='email-confirm')
-    confirm_url = url_for('confirm_email', token=token, _external=True)
+    confirm_url = f"{app.config['BASE_URL']}/confirm_email/{token}"
     subject = "Подтверждение регистрации"
     body = f"Пожалуйста, перейдите по ссылке для подтверждения регистрации: {confirm_url}"
     send_email(new_user.email, subject, body)
-
     flash("На вашу почту отправлена ссылка для подтверждения регистрации!")
     return redirect(url_for('index'))
 
@@ -119,19 +117,19 @@ def confirm_email(token):
 
 @app.route('/login', methods=['POST'])
 def login():
-    login_value = request.form.get('login')
-    password = request.form.get('password')
+    email_value = request.form.get('email')
+    password_value = request.form.get('password')
 
     # find user by login
-    user = User.query.filter_by(login=login_value).first()
+    user = User.query.filter_by(email=email_value).first()
 
     # check if user exists and password is correct
-    if user and check_password_hash(user.password_hash, password):
+    if user and check_password_hash(user.password_hash, password_value):
         flash("Вход выполнен успешно!")
         # store user id in session:
         # session['user_id'] = user.id
     else:
-        flash("Неверный логин или пароль.")
+        flash("Неверная почта или пароль.")
 
     return redirect(url_for('index'))
 
