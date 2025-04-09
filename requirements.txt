@@ -1,5 +1,8 @@
-fastapi
-uvicorn
-jinja2
-google-generativeai
-python-multipart
+fastapi==0.95.0
+uvicorn==0.21.0
+google-generativeai==0.1.0  # Для работы с Google Gemini API
+passlib[bcrypt]==1.7.4  # Для хеширования паролей
+python-jose==3.3.0  # Для работы с JWT токенами
+pydantic==1.10.5  # Для моделей данных
+aiofiles==0.8.0  # Для асинхронной работы с файлами 
+jinja2==3.1.2  # Для работы с шаблонами
