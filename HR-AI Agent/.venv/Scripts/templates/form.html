@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Оценка кандидата</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+</head>
+<body>
+  <!-- Хэдер с логотипом и иконками -->
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;">
+    <!-- Логотип -->
+    <div id="logo">
+      <a href="/">
+        <h3>HR-AI ASSISTANT</h3>
+      </a>
+    </div>
+
+    <!-- Иконки справа -->
+    <div style="display: flex; gap: 15px; align-items: center;">
+      <!-- Скрытый чекбокс для переключения темы -->
+      <input type="checkbox" id="theme-toggle-checkbox" style="display: none;" />
+
+      <!-- Иконка для переключения темы -->
+      <label for="theme-toggle-checkbox" id="theme-toggle">
+        <img src="{{ url_for('static', path='light_theme_icon.png') }}" alt="Переключить тему" style="width: 25px; height: 25px; cursor: pointer;">
+      </label>
+
+      <!-- Иконка личного кабинета -->
+      <a href="/profile">
+        <img src="{{ url_for('static', path='profile_icon_light.png') }}" alt="Личный кабинет" id="profile-icon" style="width: 25px; height: 25px;">
+      </a>
+    </div>
+  </header>
+  <div class="form-container">
+    <h1>Оценка резюме кандидата</h1>
+  </div>
+  <form action="/evaluate/" method="post" enctype="multipart/form-data">
+    <label for="job_description">Загрузите описание вакансии:</label>
+    <input type="file" name="job_description_file" required><br><br>
+
+    <label for="files">Загрузите резюме кандидатов (можно выбрать несколько):</label>
+    <input type="file" name="files" multiple required><br><br>
+
+    <button type="submit">Загрузить и оценить</button>
+  </form>
+  </div>
+  <div class="evaluations-container">
+    {% if evaluations %}
+      <h2>Оценка кандидатов:</h2>
+      {% for evaluation in evaluations %}
+        <pre>{{ evaluation }}</pre>
+      {% endfor %}
+    {% endif %}
+</div>
+  <div class="recommendations-container">
+    {% if recommendations %}
+      <h2>Рекомендации:</h2>
+      {% for recommendation in recommendations %}
+        <pre>{{ recommendation }}</pre>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <footer>
+      <!-- Футер -->
+      <div class="footer-content">
+        <div>&copy; 2025 Оценка кандидатов. Все права защищены.</div>
+        <div>
+          <a href="/privacy-policy">Политика конфиденциальности</a>
+          <a href="/terms-of-service">Условия использования</a>
+
+        </div>
+      </div>
+      <div class="social-icons">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-linkedin"></i>
+      </div>
+      <div class="footer-text">
+        <p>Свяжитесь с нами для получения дополнительной информации.</p>
+        <p>Email: <a href="mailto:made_in_california@mail.ru">made_in_california@mail.ru</a></p>
+      </div>
+    </footer>
+
+  <script>
+    // Функция для переключения темы
+    document.getElementById("theme-toggle-checkbox").addEventListener("change", function() {
+      const body = document.body;
+      const themeIcon = document.getElementById("theme-toggle").querySelector("img");
+      const profileIcon = document.getElementById("profile-icon");
+
+      // Переключаем класс dark-theme на body
+      body.classList.toggle("dark-theme", this.checked);
+
+      // Изменяем иконку в зависимости от состояния чекбокса
+      if (this.checked) {
+        themeIcon.src = "{{ url_for('static', path='theme_icon.png') }}"; // Иконка для светлой темы
+        profileIcon.src = "{{ url_for('static', path='profile_icon_dark.png') }}"; // Иконка для темной темы
+      } else {
+        themeIcon.src = "{{ url_for('static', path='light_theme_icon.png') }}"; // Иконка для темной темы
+        profileIcon.src = "{{ url_for('static', path='profile_icon_light.png') }}"; // Иконка для светлой темы
+      }
+    });
+
+    // Устанавливаем начальное состояние темы (если в кеше/локальном хранилище уже сохранено состояние)
+    document.addEventListener("DOMContentLoaded", function() {
+      const isDarkTheme = localStorage.getItem("theme") === "dark";
+      if (isDarkTheme) {
+        document.body.classList.add("dark-theme");
+        document.getElementById("theme-toggle-checkbox").checked = true;
+      }
+    });
+
+    // Сохраняем состояние темы в локальное хранилище
+    document.getElementById("theme-toggle-checkbox").addEventListener("change", function() {
+      if (this.checked) {
+        localStorage.setItem("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+/* Подключение шрифта Poppins с дополнительными весами */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Общие стили */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Плавный переход */
+  max-width: 100%; /* Максимальная ширина для всего контента */
+  margin: 0 auto; /* Центрирование контента */
+}
+
+/* Основные стили для заголовков */
+h1, h2 {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.2em;
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  margin-top: 2em;
+  font-size: 1.5em;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #1f1f1f; /* Цвет для акцента */
+}
+
+
+
+/* Стиль для формы */
+form {
+  background-color: #f9f9f9;
+  padding: 2.5em;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3em;
+  transition: box-shadow 0.3s ease;
+  max-width: 800px; /* Максимальная ширина формы */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Эффект при наведении */
+}
+
+/* Стиль для кнопок */
+button {
+  background-color: #0052cc;
+  color: white;
+  padding: 1.2em 2.5em;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center;
+  margin-top: 1.5em;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #003c99;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 82, 204, 0.3);
+}
+
+/* Стили для поля ввода */
+input[type="file"] {
+  border: 1px solid #ccc;
+  padding: 1.2em;
+  border-radius: 8px;
+  font-size: 1.1em;
+  width: 95%;
+  margin-bottom: 2em;
+  background-color: #fff;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input[type="file"]:focus {
+  border-color: #0052cc;
+  background-color: #e9f1ff; /* Легкий фон при фокусе */
+}
+
+/* Стиль для футера */
+footer {
+  background-color: #232323;
+  color: #e0e0e0;
+  text-align: center;
+  padding: 2.5em 2em;
+  font-size: 1.1em;
+  border-top: 2px solid #0052cc;
+  margin-top: 3em;
+  width: 100%; /* Ширина 100% */
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0; /* Убираем белое пространство снизу */
+}
+
+/* Прочие стили футера */
+footer a {
+  color: #0052cc;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #00aaff;
+}
+
+footer .footer-content {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  flex-wrap: wrap;
+  margin-bottom: 1.5em;
+}
+
+footer .footer-content div {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+footer .social-icons {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+footer .social-icons i {
+  font-size: 1.8em;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+footer .social-icons i:hover {
+  color: #00aaff;
+}
+
+/* Темная тема */
+body.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-theme h1, body.dark-theme h2 {
+  color: #fff;
+}
+
+body.dark-theme form {
+  background-color: #1f1f1f;
+}
+
+body.dark-theme button {
+  background-color: #007bff;
+}
+
+body.dark-theme pre {
+  background-color: #333;
+  color: #e0e0e0;
+  border-left: 5px solid #007bff;
+}
+
+body.dark-theme footer {
+  background-color: #222;
+  color: #bbb;
+}
+
+body.dark-theme footer a {
+  color: #4d90fe;
+}
+
+body.dark-theme footer a:hover {
+  color: #0099cc;
+}
+
+body.dark-theme footer .social-icons i {
+  color: #b3b3b3;
+}
+
+body.dark-theme footer .social-icons i:hover {
+  color: #0099cc;
+}
+
+/* Иконка для переключения темы */
+#theme-toggle {
+  cursor: pointer;
+  font-size: 1.6em;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+body.dark-theme #theme-toggle {
+  color: #e0e0e0;
+}
+
+body > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5em;
+  padding: 1.5em 0;
+}
+
+/* Медиазапросы для мобильных устройств */
+@media (max-width: 1024px) {
+  body {
+    padding: 2em;
+  }
+
+  h1, h2 {
+    font-size: 1.6em;
+  }
+
+  form {
+    padding: 1.5em;
+    width: 100%;
+  }
+
+  button {
+    padding: 1em 2em;
+    font-size: 1em;
+  }
+
+  input[type="file"] {
+    padding: 1em;
+  }
+
+  footer {
+    padding: 1.5em;
+  }
+
+  footer .footer-content {
+    gap: 1.5em;
+  }
+
+  footer .social-icons {
+    gap: 1.5em;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 1.5em;
+  }
+
+  h1, h2 {
+    font-size: 1.4em;
+  }
+
+  form {
+    padding: 1.5em;
+    width: 100%;
+  }
+
+  button {
+    padding: 1em 2em;
+    font-size: 1em;
+  }
+
+  input[type="file"] {
+    padding: 1em;
+  }
+
+  footer {
+    padding: 1.5em;
+  }
+
+  footer .footer-content {
+    gap: 1.5em;
+  }
+
+  footer .social-icons {
+    gap: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1em;
+  }
+
+  h1, h2 {
+    font-size: 1.2em;
+  }
+
+  form {
+    padding: 1.2em;
+    width: 100%;
+  }
+
+  button {
+    padding: 0.9em 2em;
+    font-size: 1em;
+  }
+
+  input[type="file"] {
+    padding: 1em;
+  }
+
+  footer {
+    padding: 1em;
+  }
+
+  footer .footer-content {
+    gap: 1em;
+  }
+
+  footer .social-icons {
+    gap: 1em;
+  }
+}
+
+#logo h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #333;
+  text-decoration: none;
+}
+
+body.dark-theme #logo h3 {
+  color: #f1f1f1;
+}
+
+#logo a {
+  text-decoration: none;
+}
+
+.form-container {
+  width: 100%;
+  margin: 0px -750px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+
+
+/* Абзацы и код */
+p, pre {
+  line-height: 1.7;
+  font-size: 1.1em;
+  color: #555;
+}
+
+p {
+  margin-bottom: 1.5em;
+}
+
+pre {
+  padding: 1.5em;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  color: #333;
+  border-left: 5px solid #0052cc;
+  font-size: 16px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  align: center
+}
+
+.evaluations-container {
+  flex-direction:column;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.recommendations-container {
+  flex-direction:column;
+  max-width: 800px;
+  margin: 0 auto;
+
+}
