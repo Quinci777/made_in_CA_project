@@ -1,29 +1,15 @@
-"""
-Activate virtualenv for current interpreter:
-
-Use exec(open(this_file).read(), {'__file__': this_file}).
-
-This can be used when you must use an existing Python interpreter, not the virtualenv bin/python.
-"""  # noqa: D415
 from __future__ import annotations
-
 import os
 import site
 import sys
-
-
 import glob
 import time
-
-
-
-
 from pathlib import Path
 import concurrent.futures
 import google.generativeai as genai
 
 # Инициализация клиента Gemini
-genai.configure(api_key="AIzaSyA5oDiJCP5mMM8bZyU_5VKM5GtWvEVw_3s")
+genai.configure(api_key="your key")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Чтение описания вакансии
