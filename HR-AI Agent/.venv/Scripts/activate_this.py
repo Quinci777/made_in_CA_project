@@ -9,7 +9,7 @@ import concurrent.futures
 import google.generativeai as genai
 
 # Инициализация клиента Gemini
-genai.configure(api_key="your key")
+genai.configure(api_key="your_api_key")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Чтение описания вакансии
@@ -67,6 +67,23 @@ Path("files/Recommendation.txt").write_text(final_recommendation, encoding="utf-
 
 # Печать финальной рекомендации
 print(final_recommendation)
+
+# Шаблон вопроса для получения списка вопросов о рекомендованном кандидате
+questions_for_HR_prompt = '''
+Вы эксперт по подбору персонала.
+На основе следующей рекомендации кандидата на вакансию:
+
+{recommendation}
+
+Если кандидат рекомендован на вакансию, составте 5 вопросов кандидату, которые можно было бы задать на собеседовании.
+Если же кандидат не рекомендован, то выведи пустую строку
+'''
+
+questions_for_HR = call_gemini(questions_for_HR_prompt.format(final_recommendation))
+
+Path("files/Question.txt").write_text(questions_for_HR, encoding="utf-8")
+
+print(questions_for_HR)
 
 
 try:

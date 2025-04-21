@@ -1,12 +1,13 @@
-from fastapi import FastAPI, UploadFile, File, Request, Depends, HTTPException, status
+from fastapi import FastAPI, UploadFile, File, Request, Depends, HTTPException, status, BackgroundTasks
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 import google.generativeai as genai
 import time
 from typing import List
+import os
 
 
 
@@ -21,6 +22,14 @@ templates = Jinja2Templates(directory="templates")
 
 # Настроим OAuth2 для авторизации
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# функция для удаления временных файлов
+def delete_file_after_use(file_path: str):
+    try:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+    except Exception as e:
+        print(f"Error deleting file: {e}")
 
 
 @app.post("/token")
@@ -50,7 +59,7 @@ async def profile(request: Request, token: str = Depends(oauth2_scheme)):
 
 
 # Инициализация Gemini
-genai.configure(api_key="AIzaSyA5oDiJCP5mMM8bZyU_5VKM5GtWvEVw_3s")
+genai.configure(api_key="AIzaSyDhsoesbWHSJktDB55zPX6Fq8X6thxphfk")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 evaluation_prompt = """
@@ -71,6 +80,16 @@ final_recommendation_prompt = """
 Скажите, рекомендуете ли вы нанять этого кандидата. Обоснуйте решение в 2-3 предложениях.
 """
 
+questions_for_HR_prompt = '''
+Вы эксперт по подбору персонала.
+На основе следующей рекомендации кандидата на вакансию:
+
+{recommendation}
+
+Если кандидат рекомендован на вакансию, составте 5 вопросов кандидату, которые можно было бы задать на собеседовании.
+Если же кандидат не рекомендован, то напиши: Нет вопросов
+'''
+
 
 def call_gemini(prompt):
     response = model.generate_content(prompt)
@@ -90,6 +109,7 @@ async def evaluate_candidates(request: Request, job_description_file: UploadFile
 
     evaluations = []
     recommendations = []
+    questions = []
 
     # Обрабатываем каждый файл с резюме
     for file in files:
@@ -104,9 +124,40 @@ async def evaluate_candidates(request: Request, job_description_file: UploadFile
         recommendation = call_gemini(recommendation_prompt)
         recommendations.append(recommendation)
 
+        # Генерация вопросов для рекомендованого кандидата
+        question_prompt = questions_for_HR_prompt.format(recommendation=recommendation)
+        question = call_gemini(question_prompt)
+        if 'Нет вопросов' not in question:
+            questions.append(question)
+
+
+
+    # глобальная переменная для хранения вопросов    
+    global temp_questions
+    temp_questions = questions
+
     return templates.TemplateResponse("form.html", {
         "request": request,
         "evaluations": evaluations,
-        "recommendations": recommendations
+        "recommendations": recommendations,
+        "questions": questions
     })
+
+@app.get("/download_questions/", response_class=HTMLResponse)
+async def download_questions(request: Request, background_tasks: BackgroundTasks):
+    #создаем временной файл для вопросов
+    questions_text = "\n".join(temp_questions)
+    temp_file_path = "questions.txt"
+    with open(temp_file_path, "w", encoding="utf-8") as f:
+        f.write(questions_text)
+
+    # удаляем временной файл
+    background_tasks.add_task(delete_file_after_use, temp_file_path)
+
+    return FileResponse(
+        temp_file_path,
+        media_type="text/plain",
+        filename="HR_questions.txt"
+    )
+
 

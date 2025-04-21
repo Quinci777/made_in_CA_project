@@ -60,7 +60,17 @@
       {% endfor %}
     {% endif %}
   </div>
-
+  <div class="questions-container">
+    {% if questions %}
+      <h2>Вопросы кандидату:</h2>
+      {% for question in questions %}
+        <pre>{{ question }}</pre>
+      {% endfor %}
+      <a href="/download_questions/" download>
+        <button>Скачать файл вопросов</button>
+      </a>
+    {% endif %}
+  </div>
   <footer>
       <!-- Футер -->
       <div class="footer-content">
