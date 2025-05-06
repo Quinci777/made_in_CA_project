@@ -1,0 +1,412 @@
+/* Подключение шрифта Poppins с дополнительными весами */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Общие стили */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f8f8;
+  color: #584528;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Плавный переход */
+  max-width: 100%; /* Максимальная ширина для всего контента */
+  margin: 0 auto; /* Центрирование контента */
+}
+
+/* Основные стили для заголовков */
+h1, h2 {
+  font-weight: 800;
+  color: #1f1f1f;
+  margin-bottom: 1.2em;
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  text-transform: uppercase;
+  margin-top: 2em;
+  font-size: 1.5em;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 28px;
+  font-weight: 800;
+  color: #1f1f1f;
+}
+
+
+
+/* Стиль для формы */
+form {
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  background-color: #FFFFFF;
+  padding: 4.5em;
+  border-radius: 12px;
+  margin-top: 3em;
+  margin-bottom: 3em;
+
+  max-width: 1200px; /* Максимальная ширина формы */
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+
+/* Стиль для кнопок */
+button {
+  background-color: #8C1515;
+  color: white;
+  padding: 1.2em 2.5em;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center;
+  margin-top: 1.5em;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #B73232;
+}
+
+
+/* Стили для поля ввода */
+input[type="file"] {
+  color: #787878;
+  border: 1px solid #B73232;
+  padding: 1.2em;
+  border-radius: 8px;
+  font-size: 1.1em;
+  width: 95%;
+  margin-bottom: 2em;
+  background-color: #fff;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input[type="file"]:focus {
+  border-color: #8C1515;
+  background-color: #FBF2F2; /* Легкий фон при фокусе */
+}
+
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1000;
+}
+
+
+
+body.dark-theme header {
+  background-color: #282828;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+
+/* Темная тема */
+body.dark-theme {
+  background-color: #005A46;
+  color: #e0e0e0;
+}
+
+body.dark-theme h1, body.dark-theme h2 {
+  color: #fff;
+}
+
+body.dark-theme form {
+  background-color: #282828;
+}
+
+
+
+body.dark-theme pre {
+  background-color: #282828;
+  color: #e0e0e0;
+  border-left: 5px solid #8C1515;
+}
+
+
+/* Иконка для переключения темы */
+#theme-toggle {
+  cursor: pointer;
+  font-size: 1.6em;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+body.dark-theme #theme-toggle {
+  color: #e0e0e0;
+}
+
+body > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5em;
+  padding: 1.5em 0;
+}
+
+
+
+#logo h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #333;
+  text-decoration: none;
+}
+
+body.dark-theme #logo h3 {
+  color: #fff;
+}
+
+#logo a {
+  text-decoration: none;
+}
+
+.form-container {
+  width: 100%;
+  margin: 0px -750px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+
+
+/* Абзацы и код */
+p, pre {
+  line-height: 1.7;
+  font-size: 1.1em;
+  color: #555;
+}
+
+p {
+  margin-bottom: 1.5em;
+}
+
+pre {
+  padding: 1.5em;
+  background-color: #ffffff;
+  border-radius: 8px;
+  color: #333;
+  max-width:1200px;
+  border-left: 5px solid #8C1515;
+  font-size: 16px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  align: center
+}
+
+.evaluations-container {
+  flex-direction:column;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.recommendations-container {
+  flex-direction:column;
+  max-width: 800px;
+  margin: 0 auto;
+
+}
+
+.questions-container{
+  flex-direction:column;
+  max-width: 800px;
+  margin: 0 auto;
+
+}
+
+
+
+
+
+
+
+#logo h3 {
+  color: #1f1f1f;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+body.dark-theme #logo h3 {
+  color: #ffffff;
+}
+
+#logo img {
+  transition: transform 0.2s ease;
+}
+
+#logo img:hover {
+  transform: scale(1.05);
+}
+
+
+
+.footer {
+
+
+    margin: 0;
+    padding: 0;
+    background-color: #232323;
+    color: #fff;
+    padding: 40px 40px 40px 40px;
+    max-width: auto;
+    position: relative;
+    bottom: 0;
+
+}
+
+
+
+
+.footer-section h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+
+
+
+
+.footer-section p {
+    line-height: 1.6;
+    color: #ccc;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+    display: inline-block;
+}
+
+.footer-section ul li a:hover {
+    color: #fff;
+    padding-left: 5px;
+}
+
+
+
+/* Copyright Section */
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #333;
+}
+
+.footer-bottom p {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+
+
+
+
+
+
+.footer-columns {
+  display: grid;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 240px;
+}
+
+.footer-section {
+  margin-bottom: 40px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#loading-indicator {
+  display: none; /* Показывается при submit */
+  position: fixed; /* перекрывает экран */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8); /* полупрозрачный фон */
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loader {
+  width: 40px;
+  aspect-ratio: 1;
+  color: #f03355;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(10px,currentColor 94%,#0000);
+}
+.loader:before {
+  content: '';
+  position: absolute;
+
+
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(9px at bottom right,#0000 94%,currentColor) top    left,
+    radial-gradient(9px at bottom left ,#0000 94%,currentColor) top    right,
+    radial-gradient(9px at top    right,#0000 94%,currentColor) bottom left,
+    radial-gradient(9px at top    left ,#0000 94%,currentColor) bottom right;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  animation: l18 1.5s infinite cubic-bezier(0.3,1,0,1);
+}
+@keyframes l18 {
+   33%  {inset:-10px;transform: rotate(0deg)}
+   66%  {inset:-10px;transform: rotate(90deg)}
+   100% {inset:0    ;transform: rotate(90deg)}
+}
