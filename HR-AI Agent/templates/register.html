@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<form action="/register/" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required><br><br>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message {{ 'flash-success' if category == 'success' else 'flash-error' }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<form action="{{ url_for('auth.register') }}" method="post">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
 
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required><br><br>
@@ -15,6 +27,8 @@
     <button type="submit">Register</button>
 </form>
 
-
+<form action="{{ url_for('auth.login') }}">
+    <button type="submit">Login</button>
+</form>
 </body>
 </html>

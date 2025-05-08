@@ -6,7 +6,6 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: #ffffff;
   color: #333;
-  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,7 +34,36 @@ h1 {
   color: #1f1f1f; /* Цвет для акцента */
 }
 
+/* Стили для flash-сообщений */
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
 
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: sans-serif;
+    min-width: 250px;
+    max-width: 400px;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+}
+
+.flash-success {
+    background-color: #d0ebff;
+    border: 1px solid #74c0fc;
+    color: #1c7ed6;
+}
+
+.flash-error {
+    background-color: #ffe3e3;
+    border: 1px solid #f03e3e;
+    color: #c92a2a;
+}
 
 /* Стиль для формы */
 form {

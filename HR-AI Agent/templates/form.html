@@ -3,38 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Оценка кандидата</title>
-  <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <!-- Хэдер с логотипом и иконками -->
   <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;">
     <!-- Логотип -->
     <div id="logo">
-      <a href="/">
+      <a href="{{ url_for('main.index') }}">
         <h3>HR-AI ASSISTANT</h3>
       </a>
     </div>
 
     <!-- Иконки справа -->
     <div style="display: flex; gap: 15px; align-items: center;">
-      <!-- Скрытый чекбокс для переключения темы -->
       <input type="checkbox" id="theme-toggle-checkbox" style="display: none;" />
-
-      <!-- Иконка для переключения темы -->
       <label for="theme-toggle-checkbox" id="theme-toggle">
-        <img src="{{ url_for('static', path='light_theme_icon.png') }}" alt="Переключить тему" style="width: 25px; height: 25px; cursor: pointer;">
+        <img src="{{ url_for('static', filename='light_theme_icon.png') }}" alt="Переключить тему" style="width: 25px; height: 25px; cursor: pointer;">
       </label>
-
-      <!-- Иконка личного кабинета -->
       <a href="/profile">
-        <img src="{{ url_for('static', path='profile_icon_light.png') }}" alt="Личный кабинет" id="profile-icon" style="width: 25px; height: 25px;">
+        <img src="{{ url_for('static', filename='profile_icon_light.png') }}" alt="Личный кабинет" id="profile-icon" style="width: 25px; height: 25px;">
       </a>
     </div>
   </header>
+
   <div class="form-container">
     <h1>Оценка резюме кандидата</h1>
   </div>
-  <form action="/evaluate/" method="post" enctype="multipart/form-data">
+  <form action="{{ url_for('main.form') }}" method="post" enctype="multipart/form-data">
     <label for="job_description">Загрузите описание вакансии:</label>
     <input type="file" name="job_description_file" required><br><br>
 
@@ -99,16 +95,14 @@
       const themeIcon = document.getElementById("theme-toggle").querySelector("img");
       const profileIcon = document.getElementById("profile-icon");
 
-      // Переключаем класс dark-theme на body
       body.classList.toggle("dark-theme", this.checked);
 
-      // Изменяем иконку в зависимости от состояния чекбокса
       if (this.checked) {
-        themeIcon.src = "{{ url_for('static', path='theme_icon.png') }}"; // Иконка для светлой темы
-        profileIcon.src = "{{ url_for('static', path='profile_icon_dark.png') }}"; // Иконка для темной темы
+        themeIcon.src = "{{ url_for('static', filename='theme_icon.png') }}";
+        profileIcon.src = "{{ url_for('static', filename='profile_icon_dark.png') }}";
       } else {
-        themeIcon.src = "{{ url_for('static', path='light_theme_icon.png') }}"; // Иконка для темной темы
-        profileIcon.src = "{{ url_for('static', path='profile_icon_light.png') }}"; // Иконка для светлой темы
+        themeIcon.src = "{{ url_for('static', filename='light_theme_icon.png') }}";
+        profileIcon.src = "{{ url_for('static', filename='profile_icon_light.png') }}";
       }
     });
 
@@ -132,3 +126,4 @@
   </script>
 </body>
 </html>
+
