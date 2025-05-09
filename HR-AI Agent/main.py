@@ -10,6 +10,10 @@ def create_app():
     load_dotenv()
     app = Flask(__name__)
 
+    app.config['PORT'] = os.getenv('PORT')
+    app.config['BASE_URL'] = os.getenv('BASE_URL')
+    app.config['HOST'] = os.getenv('HOST')
+
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

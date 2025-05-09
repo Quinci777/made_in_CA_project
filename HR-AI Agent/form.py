@@ -1,6 +1,4 @@
-﻿from __future__ import annotations
-import os
-import google.generativeai as genai
+from __future__ import annotations
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import current_user
 from activate_this import call_gemini, evaluation_prompt, final_recommendation_prompt, questions_for_HR_prompt

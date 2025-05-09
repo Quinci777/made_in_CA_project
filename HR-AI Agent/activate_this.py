@@ -1,11 +1,5 @@
 from __future__ import annotations
 import os
-import site
-import sys
-import glob
-import time
-from pathlib import Path
-import concurrent.futures
 import google.generativeai as genai
 
 # Инициализация Gemini
