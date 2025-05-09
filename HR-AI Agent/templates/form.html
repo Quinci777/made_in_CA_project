@@ -2,128 +2,180 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Оценка кандидата</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>HR-AI AGENT</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style-new.css') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.svg') }}">
 </head>
 <body>
-  <!-- Хэдер с логотипом и иконками -->
-  <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;">
-    <!-- Логотип -->
-    <div id="logo">
-      <a href="{{ url_for('main.index') }}">
-        <h3>HR-AI ASSISTANT</h3>
-      </a>
-    </div>
-
-    <!-- Иконки справа -->
-    <div style="display: flex; gap: 15px; align-items: center;">
-      <input type="checkbox" id="theme-toggle-checkbox" style="display: none;" />
-      <label for="theme-toggle-checkbox" id="theme-toggle">
-        <img src="{{ url_for('static', filename='light_theme_icon.png') }}" alt="Переключить тему" style="width: 25px; height: 25px; cursor: pointer;">
-      </label>
-      <a href="/profile">
-        <img src="{{ url_for('static', filename='profile_icon_light.png') }}" alt="Личный кабинет" id="profile-icon" style="width: 25px; height: 25px;">
-      </a>
-    </div>
-  </header>
-
-  <div class="form-container">
-    <h1>Оценка резюме кандидата</h1>
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
+  <div id="logo" style="display: flex; align-items: center; gap: 12px;">
+    <a href="/" style="display: flex; align-items: center; text-decoration: none;">
+      <img src="{{ url_for('static', filename='logo.svg') }}" alt="Логотип" style="height: 36px;">
+      <h3 style="font-size: 20px; font-weight: 600; margin: 10px; color: #1f1f1f;">HR-AI AGENT</h3>
+    </a>
   </div>
-  <form action="{{ url_for('main.form') }}" method="post" enctype="multipart/form-data">
-    <label for="job_description">Загрузите описание вакансии:</label>
-    <input type="file" name="job_description_file" required><br><br>
 
-    <label for="files">Загрузите резюме кандидатов (можно выбрать несколько):</label>
-    <input type="file" name="files" multiple required><br><br>
-
-    <button type="submit">Загрузить и оценить</button>
-  </form>
+  <div style="display: flex; gap: 20px; align-items: center;">
+    <input type="checkbox" id="theme-toggle-checkbox" style="display: none;" />
+    <label for="theme-toggle-checkbox" id="theme-toggle">
+      <img src="{{ url_for('static', filename='light_theme_icon.png') }}" alt="Переключить тему" style="width: 24px; height: 24px; cursor: pointer;">
+    </label>
+    <a href="/profile">
+      <img src="{{ url_for('static', filename='profile_icon_light.png') }}" alt="Личный кабинет" id="profile-icon" style="width: 24px; height: 24px;">
+    </a>
   </div>
-  <div class="evaluations-container">
-    {% if evaluations %}
-      <h2>Оценка кандидатов:</h2>
-      {% for evaluation in evaluations %}
-        <pre>{{ evaluation }}</pre>
-      {% endfor %}
-    {% endif %}
+</header>
+
+<form action="/evaluate/" method="post" enctype="multipart/form-data">
+  <h1>Оценка резюме кандидата</h1>
+  <label for="job_description">Загрузите описание вакансии:</label>
+  <input type="file" name="job_description_file" required><br><br>
+
+  <label for="files">Загрузите резюме кандидатов (можно выбрать несколько):</label>
+  <input type="file" name="files" multiple required><br><br>
+
+  <button type="submit">Загрузить и оценить</button>
+</form>
+
+<div id="loading-indicator" style="display: none; text-align: center; font-size: 20px">
+  <p><strong>Оцениваем резюме...</strong></p>
+  <div class="loader"></div>
 </div>
-  <div class="recommendations-container">
-    {% if recommendations %}
-      <h2>Рекомендации:</h2>
-      {% for recommendation in recommendations %}
-        <pre>{{ recommendation }}</pre>
-      {% endfor %}
-    {% endif %}
-  </div>
-  <div class="questions-container">
-    {% if questions %}
-      <h2>Вопросы кандидату:</h2>
-      {% for question in questions %}
-        <pre>{{ question }}</pre>
-      {% endfor %}
-      <a href="/download_questions/" download>
-        <button>Скачать файл вопросов</button>
+
+<div class="evaluations-container">
+  {% if evaluations %}
+    <h2>Оценка кандидатов</h2>
+    {% for evaluation in evaluations %}
+      <pre>{{ evaluation }}</pre>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<div class="recommendations-container">
+  {% if recommendations %}
+    <h2>Рекомендации</h2>
+    {% for recommendation in recommendations %}
+      <pre>{{ recommendation }}</pre>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<div class="questions-container">
+  {% if questions %}
+    <h2>Вопросы кандидату</h2>
+    {% for question in questions %}
+      <pre>{{ question }}</pre>
+    {% endfor %}
+
+    <form action="/download_questions/" method="get" style="margin-top: 20px;">
+      <label for="format">Формат файла:</label>
+      <select name="format" id="format" required>
+        <option value="txt">TXT</option>
+        <option value="docx">DOCX</option>
+        <option value="pdf">PDF</option>
+      </select>
+      <button type="submit">Скачать вопросы</button>
+    </form>
+  {% endif %}
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div id="logo" style="display: flex; align-items: center; gap: 12px;">
+      <a href="/" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="{{ url_for('static', filename='logo_wh.png') }}" alt="Логотип" style="height: 36px;">
+        <h3 style="font-size: 20px; font-weight: 600; margin: 10px; color: #ffffff;">HR-AI AGENT</h3>
       </a>
-    {% endif %}
+    </div>
+
+    <div class="footer-columns">
+      <div class="footer-section">
+        <ul>
+          <li>HR AI-AGENT: Интеллектуальный помощник в подборе персонала. Эта интеллектуальная система автоматизирует анализ резюме кандидатов и помогает рекрутерам принимать обоснованные решения.</li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>О проекте</h3>
+        <ul>
+          <li>Проект разработан командой энтузиастов в области HR и ИИ.</li>
+          <li>Миссия — упростить и ускорить процесс подбора персонала.</li>
+          <li>Система развивается с учётом обратной связи от пользователей.</li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Навигация</h3>
+        <ul>
+          <li><a href="#">Главная</a></li>
+          <li><a href="#">Личный кабинет</a></li>
+          <li><a href="#">Часто задаваемые вопросы</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Контакты</h3>
+        <ul>
+          <li style="display: flex; align-items: center; gap: 10px;">
+            <img src="{{ url_for('static', filename='email.png') }}" alt="Email" style="width: 27px; height: 27px;">
+            <a href="mailto:made_in_california@mail.ru">made_in_california@mail.ru</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <footer>
-      <!-- Футер -->
-      <div class="footer-content">
-        <div>&copy; 2025 Оценка кандидатов. Все права защищены.</div>
-        <div>
-          <a href="/privacy-policy">Политика конфиденциальности</a>
-          <a href="/terms-of-service">Условия использования</a>
 
-        </div>
-      </div>
-      <div class="social-icons">
-        <i class="fab fa-facebook"></i>
-        <i class="fab fa-twitter"></i>
-        <i class="fab fa-linkedin"></i>
-      </div>
-      <div class="footer-text">
-        <p>Свяжитесь с нами для получения дополнительной информации.</p>
-        <p>Email: <a href="mailto:made_in_california@mail.ru">made_in_california@mail.ru</a></p>
-      </div>
-    </footer>
+  <div class="footer-bottom">
+    <p>&copy; HR-AI AGENT 2025. All rights reserved.</p>
+  </div>
+</footer>
 
-  <script>
-    // Функция для переключения темы
-    document.getElementById("theme-toggle-checkbox").addEventListener("change", function() {
-      const body = document.body;
-      const themeIcon = document.getElementById("theme-toggle").querySelector("img");
-      const profileIcon = document.getElementById("profile-icon");
+<script>
+  const themeCheckbox = document.getElementById("theme-toggle-checkbox");
+  const logoLight = document.getElementById("logo-light");
+  const logoDark = document.getElementById("logo-dark");
+  const logoText = document.getElementById("logo-text");
 
-      body.classList.toggle("dark-theme", this.checked);
+  themeCheckbox.addEventListener("change", function () {
+    const body = document.body;
+    const themeIcon = document.getElementById("theme-toggle").querySelector("img");
+    const profileIcon = document.getElementById("profile-icon");
 
-      if (this.checked) {
-        themeIcon.src = "{{ url_for('static', filename='theme_icon.png') }}";
-        profileIcon.src = "{{ url_for('static', filename='profile_icon_dark.png') }}";
-      } else {
-        themeIcon.src = "{{ url_for('static', filename='light_theme_icon.png') }}";
-        profileIcon.src = "{{ url_for('static', filename='profile_icon_light.png') }}";
-      }
-    });
+    body.classList.toggle("dark-theme", this.checked);
 
-    // Устанавливаем начальное состояние темы (если в кеше/локальном хранилище уже сохранено состояние)
-    document.addEventListener("DOMContentLoaded", function() {
-      const isDarkTheme = localStorage.getItem("theme") === "dark";
-      if (isDarkTheme) {
-        document.body.classList.add("dark-theme");
-        document.getElementById("theme-toggle-checkbox").checked = true;
-      }
-    });
+    if (this.checked) {
+      themeIcon.src = "{{ url_for('static', filename='theme_icon.png') }}";
+      profileIcon.src = "{{ url_for('static', filename='profile_icon_dark.png') }}";
+      logoLight.style.display = "none";
+      logoDark.style.display = "block";
+      logoText.style.color = "#ffffff";
+      localStorage.setItem("theme", "dark");
+    } else {
+      themeIcon.src = "{{ url_for('static', filename='light_theme_icon.png') }}";
+      profileIcon.src = "{{ url_for('static', filename='profile_icon_light.png') }}";
+      logoLight.style.display = "block";
+      logoDark.style.display = "none";
+      logoText.style.color = "#1f1f1f";
+      localStorage.setItem("theme", "light");
+    }
+  });
 
-    // Сохраняем состояние темы в локальное хранилище
-    document.getElementById("theme-toggle-checkbox").addEventListener("change", function() {
-      if (this.checked) {
-        localStorage.setItem("theme", "dark");
-      } else {
-        localStorage.setItem("theme", "light");
-      }
-    });
-  </script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) {
+      document.body.classList.add("dark-theme");
+      themeCheckbox.checked = true;
+      logoLight.style.display = "none";
+      logoDark.style.display = "block";
+      logoText.style.color = "#ffffff";
+    }
+  });
+
+  document.querySelector("form").addEventListener("submit", () => {
+    document.getElementById("loading-indicator").style.display = "block";
+  });
+</script>
 </body>
 </html>
 

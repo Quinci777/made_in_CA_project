@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-new.css') }}">
 </head>
 <body>
 
@@ -21,14 +21,14 @@
     <label for="email">Email:</label>
     <input type="text" id="email" name="email" required><br><br>
 
-    <label for="password">Password:</label>
+    <label for="password">Пароль:</label>
     <input type="password" id="password" name="password" required><br><br>
 
-    <button type="submit">Login</button>
+    <button type="submit">Войти</button>
 </form>
 
 <form action="{{ url_for('auth.register') }}">
-    <button type="submit">Register</button>
+    <button type="submit">Зарегистрироваться</button>
 </form>
 </body>
 </html>
