@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Личный кабинет</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style-new.css') }}">
+</head>
+<body>
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;">
+    <div id="logo">
+      <a href="/">
+        <h3>HR-AI ASSISTANT</h3>
+      </a>
+    </div>
+    <div style="display: flex; gap: 15px; align-items: center;">
+      <a href="{{ url_for('auth.logout') }}">
+        <button style="padding: 8px 16px;">Выйти</button>
+      </a>
+    </div>
+  </header>
+
+  <main style="padding: 40px;">
+    <h1>Добро пожаловать{% if current_user.is_authenticated %}, {{ current_user.email }}{% endif %}!</h1>
+
+    <p>Вы можете перейти к оценке кандидатов по ссылке ниже.</p>
+    <a href="{{ url_for('main.index') }}">
+      <button style="padding: 10px 20px; font-size: 16px;">Перейти к форме</button>
+    </a>
+  </main>
+</body>
+</html>
+
