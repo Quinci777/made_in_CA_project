@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_login import LoginManager
+from werkzeug.security import generate_password_hash
+
 from extensions import db, mail, User
 from form import main_bp
 
@@ -9,6 +11,8 @@ from form import main_bp
 def create_app():
     load_dotenv()
     app = Flask(__name__)
+
+    app.config['DEBUG_MODE'] = os.getenv('DEBUG_MODE')
 
     app.config['PORT'] = os.getenv('PORT')
     app.config['BASE_URL'] = os.getenv('BASE_URL')
@@ -52,5 +56,20 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+    # Debug user
+    if os.getenv('DEBUG_MODE'):
+        create_debug_admin_user(app)
+
     return app
 
+def create_debug_admin_user(app):
+    with app.app_context():
+        if not User.query.filter_by(email="admin@debug.com").first():
+            admin = User(
+                email="admin@debug.com",
+                password_hash=generate_password_hash("admin"),
+                email_confirmed=True
+            )
+            db.session.add(admin)
+            db.session.commit()
+            print("⚙️ Debug user 'admin@debug.com' with password 'admin' added.")

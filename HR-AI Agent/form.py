@@ -1,7 +1,7 @@
 from __future__ import annotations
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import current_user
-from activate_this import call_gemini, evaluation_prompt, final_recommendation_prompt, questions_for_HR_prompt
+from ai_model import call_gemini, evaluation_prompt, final_recommendation_prompt, questions_for_HR_prompt
 
 # Flask Blueprint для основного функционала
 main_bp = Blueprint('main', __name__)
