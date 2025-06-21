@@ -7,31 +7,28 @@
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.svg') }}">
 </head>
 <body>
-<header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
-  <div id="logo" style="display: flex; align-items: center; gap: 12px;">
-    <a href="/" style="display: flex; align-items: center; text-decoration: none;">
-      <img src="{{ url_for('static', filename='logo.svg') }}" alt="Логотип" style="height: 36px;">
-      <h3 style="font-size: 20px; font-weight: 600; margin: 10px; color: #1f1f1f;">HR-AI AGENT</h3>
+<header style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:1px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
+  <div id="header-logo" style="display:flex;align-items:center;gap:12px">
+    <a href="/" style="display:flex;align-items:center;text-decoration:none">
+      <img src="{{ url_for('static', filename='logo.svg') }}" alt="Логотип" style="height:36px">
+      <h3 style="font-size:20px;font-weight:600;margin:10px;color:#1f1f1f">HR-AI AGENT</h3>
     </a>
   </div>
 
-  <div style="display: flex; gap: 20px; align-items: center;">
-    <input type="checkbox" id="theme-toggle-checkbox" style="display: none;" />
+  <div style="display:flex;gap:20px;align-items:center">
+    <input type="checkbox" id="theme-toggle-checkbox" style="display:none">
     <label for="theme-toggle-checkbox" id="theme-toggle">
-      <img src="{{ url_for('static', filename='light_theme_icon.png') }}" alt="Переключить тему" style="width: 24px; height: 24px; cursor: pointer;">
+      <img src="{{ url_for('static', filename='light_theme_icon.png') }}" alt="Переключить тему" style="width:24px;height:24px;cursor:pointer">
     </label>
     <a href="/profile">
-      <img src="{{ url_for('static', filename='profile_icon_light.png') }}" alt="Личный кабинет" id="profile-icon" style="width: 24px; height: 24px;">
+      <img src="{{ url_for('static', filename='profile_icon_light.png') }}" alt="Личный кабинет" id="profile-icon" style="width:24px;height:24px">
     </a>
   </div>
 </header>
 
 <form action="{{ url_for('main.form') }}" method="post" enctype="multipart/form-data">
   <h1>Оценка резюме кандидата</h1>
-
-  {% if error %}
-    <p style="color: red;">{{ error }}</p>
-  {% endif %}
+  {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
 
   <label for="job_description">Загрузите описание вакансии:</label>
   <input type="file" name="job_description_file" required><br><br>
@@ -42,54 +39,48 @@
   <button type="submit">Загрузить и оценить</button>
 </form>
 
-<div id="loading-indicator" style="display: none; text-align: center; font-size: 20px">
+<div id="loading-indicator" style="display:none;text-align:center;font-size:20px">
   <p><strong>Оцениваем резюме...</strong></p>
   <div class="loader"></div>
 </div>
 
 <div class="evaluations-container">
   {% if evaluations %}
-    <h2>Оценка кандидатов</h2>
-    {% for evaluation in evaluations %}
-      <pre>{{ evaluation }}</pre>
-    {% endfor %}
+  <h2>Оценка кандидатов</h2>
+  {% for evaluation in evaluations %}<pre>{{ evaluation }}</pre>{% endfor %}
   {% endif %}
 </div>
 
 <div class="recommendations-container">
   {% if recommendations %}
-    <h2>Рекомендации</h2>
-    {% for recommendation in recommendations %}
-      <pre>{{ recommendation }}</pre>
-    {% endfor %}
+  <h2>Рекомендации</h2>
+  {% for recommendation in recommendations %}<pre>{{ recommendation }}</pre>{% endfor %}
   {% endif %}
 </div>
 
 <div class="questions-container">
   {% if questions %}
-    <h2>Вопросы кандидату</h2>
-    {% for question in questions %}
-      <pre>{{ question }}</pre>
-    {% endfor %}
+  <h2>Вопросы кандидату</h2>
+  {% for question in questions %}<pre>{{ question }}</pre>{% endfor %}
 
-    <form action="/download_questions/" method="get" style="margin-top: 20px;">
-      <label for="format">Формат файла:</label>
-      <select name="format" id="format" required>
-        <option value="txt">TXT</option>
-        <option value="docx">DOCX</option>
-        <option value="pdf">PDF</option>
-      </select>
-      <button type="submit">Скачать вопросы</button>
-    </form>
+  <form action="/download_questions/" method="get" style="margin-top:20px">
+    <label for="format">Формат файла:</label>
+    <select name="format" id="format" required>
+      <option value="txt">TXT</option>
+      <option value="docx">DOCX</option>
+      <option value="pdf">PDF</option>
+    </select>
+    <button type="submit">Скачать вопросы</button>
+  </form>
   {% endif %}
 </div>
 
 <footer class="footer">
   <div class="footer-content">
-    <div id="logo" style="display: flex; align-items: center; gap: 12px;">
-      <a href="/" style="display: flex; align-items: center; text-decoration: none;">
-        <img src="{{ url_for('static', filename='logo_wh.png') }}" alt="Логотип" style="height: 36px;">
-        <h3 style="font-size: 20px; font-weight: 600; margin: 10px; color: #ffffff;">HR-AI AGENT</h3>
+    <div id="footer-logo" style="display:flex;align-items:center;gap:12px">
+      <a href="/" style="display:flex;align-items:center;text-decoration:none">
+        <img src="{{ url_for('static', filename='logo_wh.png') }}" alt="Логотип" style="height:36px">
+        <h3 style="font-size:20px;font-weight:600;margin:10px;color:#ffffff">HR-AI AGENT</h3>
       </a>
     </div>
 
@@ -122,8 +113,8 @@
       <div class="footer-section">
         <h3>Контакты</h3>
         <ul>
-          <li style="display: flex; align-items: center; gap: 10px;">
-            <img src="{{ url_for('static', filename='email.png') }}" alt="Email" style="width: 27px; height: 27px;">
+          <li style="display:flex;align-items:center;gap:10px">
+            <img src="{{ url_for('static', filename='email.png') }}" alt="Email" style="width:27px;height:27px">
             <a href="mailto:made_in_california@mail.ru">made_in_california@mail.ru</a>
           </li>
         </ul>
@@ -137,50 +128,49 @@
 </footer>
 
 <script>
-  const themeCheckbox = document.getElementById("theme-toggle-checkbox");
-  const logoLight = document.getElementById("logo-light");
-  const logoDark = document.getElementById("logo-dark");
-  const logoText = document.getElementById("logo-text");
+const themeCheckbox=document.getElementById("theme-toggle-checkbox");
+const logoLight=document.getElementById("logo-light");
+const logoDark=document.getElementById("logo-dark");
+const logoText=document.getElementById("logo-text");
 
-  themeCheckbox.addEventListener("change", function () {
-    const body = document.body;
-    const themeIcon = document.getElementById("theme-toggle").querySelector("img");
-    const profileIcon = document.getElementById("profile-icon");
+themeCheckbox.addEventListener("change",function(){
+  const body=document.body;
+  const themeIcon=document.getElementById("theme-toggle").querySelector("img");
+  const profileIcon=document.getElementById("profile-icon");
 
-    body.classList.toggle("dark-theme", this.checked);
+  body.classList.toggle("dark-theme",this.checked);
 
-    if (this.checked) {
-      themeIcon.src = "{{ url_for('static', filename='theme_icon.png') }}";
-      profileIcon.src = "{{ url_for('static', filename='profile_icon_dark.png') }}";
-      logoLight.style.display = "none";
-      logoDark.style.display = "block";
-      logoText.style.color = "#ffffff";
-      localStorage.setItem("theme", "dark");
-    } else {
-      themeIcon.src = "{{ url_for('static', filename='light_theme_icon.png') }}";
-      profileIcon.src = "{{ url_for('static', filename='profile_icon_light.png') }}";
-      logoLight.style.display = "block";
-      logoDark.style.display = "none";
-      logoText.style.color = "#1f1f1f";
-      localStorage.setItem("theme", "light");
-    }
-  });
+  if(this.checked){
+    themeIcon.src="{{ url_for('static', filename='theme_icon.png') }}";
+    profileIcon.src="{{ url_for('static', filename='profile_icon_dark.png') }}";
+    logoLight.style.display="none";
+    logoDark.style.display="block";
+    logoText.style.color="#ffffff";
+    localStorage.setItem("theme","dark");
+  }else{
+    themeIcon.src="{{ url_for('static', filename='light_theme_icon.png') }}";
+    profileIcon.src="{{ url_for('static', filename='profile_icon_light.png') }}";
+    logoLight.style.display="block";
+    logoDark.style.display="none";
+    logoText.style.color="#1f1f1f";
+    localStorage.setItem("theme","light");
+  }
+});
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const isDark = localStorage.getItem("theme") === "dark";
-    if (isDark) {
-      document.body.classList.add("dark-theme");
-      themeCheckbox.checked = true;
-      logoLight.style.display = "none";
-      logoDark.style.display = "block";
-      logoText.style.color = "#ffffff";
-    }
-  });
+document.addEventListener("DOMContentLoaded",function(){
+  const isDark=localStorage.getItem("theme")==="dark";
+  if(isDark){
+    document.body.classList.add("dark-theme");
+    themeCheckbox.checked=true;
+    logoLight.style.display="none";
+    logoDark.style.display="block";
+    logoText.style.color="#ffffff";
+  }
+});
 
-  document.querySelector("form").addEventListener("submit", () => {
-    document.getElementById("loading-indicator").style.display = "block";
-  });
+document.querySelector("form").addEventListener("submit",()=>{
+  document.getElementById("loading-indicator").style.display="block";
+});
 </script>
 </body>
 </html>
-

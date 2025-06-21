@@ -6,11 +6,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style-new.css') }}">
 </head>
 <body>
-
-{% with messages = get_flashed_messages(with_categories=true) %}
+{% with messages=get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
-      <div class="flash-message {{ 'flash-success' if category == 'success' else 'flash-error' }}">
+      <div class="flash-message {{ 'flash-success' if category=='success' else 'flash-error' }}">
         {{ message }}
       </div>
     {% endfor %}

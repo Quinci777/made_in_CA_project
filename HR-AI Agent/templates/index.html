@@ -1,134 +1,56 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Мой калифорнийский сайт</title>
     <style>
-        body {
-            font-family: "Gill Sans", sans-serif;
-            background: linear-gradient(to right, #1b1b1b, #222222);
-            color: #fff;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            justify-content: center;
-        }
-        
-        h1 {
-            animation: fadeIn 1.5s ease-in-out;
-        }
-        
-        .form-container {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            animation: slideUp 1s ease-in-out;
-        }
-        
-        input[type="email"],
-        input[type="password"],
-        input[type="submit"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        input[type="submit"] {
-            background: #1e1e20;
-            color: white;
-            cursor: pointer;
-            transition: background 0.1s;
-        }
-        
-        input[type="submit"]:hover {
-            background: #303030;
-        }
-        
-        ul {
-            list-style: none;
-            padding: 0;
-            color: yellow;
-            font-weight: bold;
-        }
-        
-        .switch {
-            cursor: pointer;
-            color: #fff;
-            margin-top: 10px;
-            text-decoration: underline;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        @keyframes slideUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+        body{font-family:"Gill Sans",sans-serif;background:linear-gradient(to right,#1b1b1b,#222222);color:#fff;text-align:center;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center;height:100vh;justify-content:center}
+        h1{animation:fadeIn 1.5s ease-in-out}
+        .form-container{background:rgba(255,255,255,0.2);padding:20px;border-radius:10px;width:100%;max-width:400px;box-shadow:0 4px 6px rgba(0,0,0,0.1);animation:slideUp 1s ease-in-out}
+        input[type="email"],input[type="password"],input[type="submit"]{width:calc(100% - 20px);padding:10px;margin:10px 0;border:none;border-radius:5px;font-size:16px}
+        input[type="submit"]{background:#1e1e20;color:#fff;cursor:pointer;transition:background 0.1s}
+        input[type="submit"]:hover{background:#303030}
+        ul{list-style:none;padding:0;color:#ff0;font-weight:700}
+        .switch{cursor:pointer;color:#fff;margin-top:10px;text-decoration:underline}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
     </style>
     <script>
-        function toggleForm(show) {
-            document.getElementById('registration-form').style.display = show ? 'block' : 'none';
-            document.getElementById('login-form').style.display = show ? 'none' : 'block';
+        function toggleForm(show){
+            document.getElementById('registration-form').style.display=show?'block':'none';
+            document.getElementById('login-form').style.display=show?'none':'block';
         }
     </script>
 </head>
-
 <body>
-    {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %} {% endwith %}
+{% with messages=get_flashed_messages() %}{% if messages %}
+<ul>
+    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+</ul>
+{% endif %}{% endwith %}
 
-    <h1>Авторизация</h1>
-    <p>Пожалуйста, введите свой адрес электронной почты и пароль, чтобы продолжить</p>
+<h1>Авторизация</h1>
+<p>Пожалуйста, введите свой адрес электронной почты и пароль, чтобы продолжить</p>
 
-    <div class="form-container" id="registration-form">
-        <p>Регистрация:</p>
-        <form action="/registration" method="post">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Пароль" required>
-            <input type="submit" value="Зарегистрироваться">
-        </form>
-        <p class="switch" onclick="toggleForm(false)">Уже есть аккаунт? Войти</p>
-    </div>
+<div class="form-container" id="registration-form">
+    <p>Регистрация:</p>
+    <form action="/registration" method="post">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="submit" value="Зарегистрироваться">
+    </form>
+    <p class="switch" onclick="toggleForm(false)">Уже есть аккаунт? Войти</p>
+</div>
 
-    <div class="form-container" id="login-form" style="display: none;">
-        <p>Вход:</p>
-        <form action="/login" method="post">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Пароль" required>
-            <input type="submit" value="Войти">
-        </form>
-        <p class="switch" onclick="toggleForm(true)">Нет аккаунта? Зарегистрироваться</p>
-    </div>
+<div class="form-container" id="login-form" style="display:none">
+    <p>Вход:</p>
+    <form action="/login" method="post">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="submit" value="Войти">
+    </form>
+    <p class="switch" onclick="toggleForm(true)">Нет аккаунта? Зарегистрироваться</p>
+</div>
 </body>
-
 </html>
