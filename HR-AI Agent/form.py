@@ -3,8 +3,25 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import current_user
 from ai_model import call_gemini, evaluation_prompt, final_recommendation_prompt, questions_for_HR_prompt
 import os
+import re
 
 main_bp = Blueprint('main', __name__)
+
+# Фильтр для очистки markdown-разметки в шаблонах
+@main_bp.app_template_filter('clean_markdown')
+def clean_markdown_filter(text):
+    """Удаляет markdown-разметку из текста для отображения в шаблоне"""
+    if not text:
+        return text
+    # Удаляем ** для жирного текста
+    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)
+    # Удаляем * для курсива
+    text = re.sub(r'\*(.*?)\*', r'\1', text)
+    # Удаляем ` для кода
+    text = re.sub(r'`(.*?)`', r'\1', text)
+    # Удаляем # для заголовков
+    text = re.sub(r'^#+\s*', '', text, flags=re.MULTILINE)
+    return text.strip()
 
 # Разрешенные расширения файлов
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}

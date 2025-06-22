@@ -47,21 +47,21 @@
 <div class="evaluations-container">
   {% if evaluations %}
   <h2>Оценка кандидатов</h2>
-  {% for evaluation in evaluations %}<pre>{{ evaluation }}</pre>{% endfor %}
+  {% for evaluation in evaluations %}<pre>{{ evaluation | clean_markdown }}</pre>{% endfor %}
   {% endif %}
 </div>
 
 <div class="recommendations-container">
   {% if recommendations %}
   <h2>Рекомендации</h2>
-  {% for recommendation in recommendations %}<pre>{{ recommendation }}</pre>{% endfor %}
+  {% for recommendation in recommendations %}<pre>{{ recommendation | clean_markdown }}</pre>{% endfor %}
   {% endif %}
 </div>
 
 <div class="questions-container">
   {% if questions %}
   <h2>Вопросы кандидату</h2>
-  {% for question in questions %}<pre>{{ question }}</pre>{% endfor %}
+  {% for question in questions %}<pre>{{ question | clean_markdown }}</pre>{% endfor %}
 
   <form action="/download_questions/" method="get" style="margin-top:20px">
     <label for="format">Формат файла:</label>
